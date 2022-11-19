@@ -44,7 +44,9 @@ class Direction(Enum):
     NEGATIVE = 2
 
 class promptFragments:
-    fragments = []
+    def __init__(self):
+        self.fragments = []
+        self.fragments.clear()
 
     def addFragment(self, prompt: str, numSelections: int, weight: decimal, variance: decimal=0):
         self.fragments.append(promptFragment(prompt, numSelections, weight, variance))
