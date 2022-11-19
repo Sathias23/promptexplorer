@@ -46,6 +46,8 @@ class Direction(Enum):
 class promptFragments:
     def __init__(self):
         self.fragments = []
+
+    def clear(self):
         self.fragments.clear()
 
     def addFragment(self, prompt: str, numSelections: int, weight: decimal, variance: decimal=0):
