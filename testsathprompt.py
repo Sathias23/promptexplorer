@@ -1,6 +1,12 @@
 import sathprompt
+import sathexif
 
 x = sathprompt.promptFragments()
-x.addFragment("1920's haunted Massachusetts mansion, vintage portrait of a retired admiral, shadow lurking in a hedge maze, abandoned mental asylum, a lonely night in Arkham Massachusetts, vintage photo of a portal to the beyond, cursed painting that is alive, portrait of the last surviving sailor, hidden temple in the basement", 3, 0.7, 0.2)
-x.addFragment("by artgerm, by beeple, by zdzislaw beksinski", 1, 0.3, 0.2)
-print(x.combineFragments(sathprompt.CombineMethod.SELECT_NUM_WITH_RAND_WEIGHT))
+x.addFragment("A cow, A bird, A camel", 1, 1)
+x.addFragment("by John, by Bill, by Jane, by Sarah, by Mary", 2, 0.5)
+x.addFragment("in the field, in the forest, in the desert", 1, 0.5)
+x.addFragment("with a hat, with a scarf, with a jacket", 1, 0.5)
+#x.addFragment("normal, poor quality, boring, tedious, interesting, exciting", 3, -0.5)
+print(x.combineFragments(sathprompt.CombineMethod.SELECT_NUM_WITH_WEIGHT, sathprompt.Direction.POSITIVE))
+print(x.combineFragments(sathprompt.CombineMethod.SELECT_NUM_WITH_WEIGHT, sathprompt.Direction.NEGATIVE))
+
