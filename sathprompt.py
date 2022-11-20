@@ -34,8 +34,9 @@ class promptFragment:
             return " ".join([s + f":{round(random.uniform(self.weight - self.variance, self.weight + self.variance),2) * -1}" for s in selectPrompt])
 
 class CombineMethod(Enum):
-    AS_IS = 1
-    SELECT_NUM = 2
+    AS_IS = 0
+    SELECT_NUM = 1
+    SELECT_NUM_DIRECTIONAL = 2
     SELECT_NUM_WITH_WEIGHT = 3
     SELECT_NUM_WITH_RAND_WEIGHT = 4
 
@@ -58,6 +59,10 @@ class promptFragments:
             return ", ".join([f.asIs() for f in self.fragments])
         elif method == CombineMethod.SELECT_NUM:
             return ", ".join([f.selectNum() for f in self.fragments])
+        elif method == CombineMethod.SELECT_NUM_DIRECTIONAL and direction == Direction.POSITIVE:
+            return ", ".join([f.selectNum() for f in filter(lambda f: f.weight > 0, self.fragments)])
+        elif method == CombineMethod.SELECT_NUM_DIRECTIONAL and direction == Direction.NEGATIVE:
+            return ", ".join([f.selectNum() for f in filter(lambda f: f.weight < 0, self.fragments)])
         elif method == CombineMethod.SELECT_NUM_WITH_WEIGHT and direction == Direction.POSITIVE:
             return " ".join([f.selectNumWithWeight(direction) for f in filter(lambda f: f.weight > 0, self.fragments)])
         elif method == CombineMethod.SELECT_NUM_WITH_WEIGHT and direction == Direction.NEGATIVE:
