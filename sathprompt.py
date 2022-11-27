@@ -25,6 +25,14 @@ class promptFragment:
         else:
             return " ".join([s + f":{self.weight * -1}" for s in selectPrompt])
 
+    def selectNumWithBrackets(self, direction):
+        splitPrompt = self.prompt.split(", ")
+        selectPrompt = random.sample(splitPrompt, k=self.numSelections)
+        if direction == Direction.POSITIVE:
+            return " ".join([f"({s}:{self.weight})" for s in selectPrompt])
+        else:
+            return " ".join([f"({s}:{self.weight * -1})" for s in selectPrompt])
+
     def selectNumWithRandWeight(self, direction):
         splitPrompt = self.prompt.split(", ")
         selectPrompt = random.sample(splitPrompt, k=self.numSelections)
@@ -38,7 +46,8 @@ class CombineMethod(Enum):
     SELECT_NUM = 1
     SELECT_NUM_DIRECTIONAL = 2
     SELECT_NUM_WITH_WEIGHT = 3
-    SELECT_NUM_WITH_RAND_WEIGHT = 4
+    SELECT_NUM_WITH_BRACKETS = 4
+    SELECT_NUM_WITH_RAND_WEIGHT = 5
 
 class Direction(Enum):
     POSITIVE = 1
@@ -67,6 +76,10 @@ class promptFragments:
             return " ".join([f.selectNumWithWeight(direction) for f in filter(lambda f: f.weight > 0, self.fragments)])
         elif method == CombineMethod.SELECT_NUM_WITH_WEIGHT and direction == Direction.NEGATIVE:
             return " ".join([f.selectNumWithWeight(direction) for f in filter(lambda f: f.weight < 0, self.fragments)])
+        elif method == CombineMethod.SELECT_NUM_WITH_BRACKETS and direction == Direction.POSITIVE:
+            return " ".join([f.selectNumWithBrackets(direction) for f in filter(lambda f: f.weight > 0, self.fragments)])
+        elif method == CombineMethod.SELECT_NUM_WITH_BRACKETS and direction == Direction.NEGATIVE:
+            return " ".join([f.selectNumWithBrackets(direction) for f in filter(lambda f: f.weight < 0, self.fragments)])
         elif method == CombineMethod.SELECT_NUM_WITH_RAND_WEIGHT and direction == Direction.POSITIVE:
             return " ".join([f.selectNumWithRandWeight(direction) for f in filter(lambda f: f.weight > 0, self.fragments)])
         elif method == CombineMethod.SELECT_NUM_WITH_RAND_WEIGHT and direction == Direction.NEGATIVE:
