@@ -31,6 +31,8 @@ class synonymiser:
     def synonymise(self):
         target_tokens = tokenizer.encode(self.prompt)
         new_prompt = ""
+        num_prompt = 0
+        total_index = 0
         for now_token in target_tokens:
             target_emb = perceptor.token_embedding.weight[now_token,None].detach()
             token_sim  = torch.cosine_similarity(target_emb,perceptor.token_embedding.weight.detach(),-1)
@@ -40,10 +42,17 @@ class synonymiser:
             output = []
             for i in range(top_indices.shape[0]):
                 output.append([tokenizer.decode([top_indices[i].item()]), top_values[i].item()]) 
-            new_token = sample(output, len(output))[0][0]
+            shuffle_output = sample(output, len(output))
+            new_token = shuffle_output[0][0]
+            new_index = shuffle_output[0][1]
             new_prompt += new_token
+            total_index += new_index
+            num_prompt += 1
+        total_index = total_index / num_prompt
+        # strip any unicode characters from new_prompt
+        new_prompt = new_prompt.encode('ascii', 'ignore').decode('ascii')
         # strip any commas from new_prompt
         if self.stripcommas:
             new_prompt = new_prompt.replace(", ","")
-        return new_prompt
+        return new_prompt, total_index
 

@@ -1,6 +1,5 @@
 import sathprompt
-import sathexif
-import synonymiser
+from synonymiser import synonymiser
 
 x = sathprompt.promptFragments()
 x.addFragment("A cow, A bird, A camel", 1, 1)
@@ -13,8 +12,24 @@ neg = x.combineFragments(sathprompt.CombineMethod.SELECT_NUM_DIRECTIONAL, sathpr
 
 print(pos)
 print(neg)
-syn = synonymiser.synonymiser(pos, 16)
-print(syn.synonymise())
-syn = synonymiser.synonymiser(neg, 16)
-print(syn.synonymise())
+syn = synonymiser(pos, 16)
+prompt, distance = syn.synonymise()
+print(f'Pos: {prompt} k:{distance}')
+syn = synonymiser(neg, 4)
+prompt, distance = syn.synonymise()
+print(f'Neg: {prompt} k:{distance}')
 
+pos = "centered horrific detailed side view profile portrait of the angel of death, Día de los Muertos, red roses, skull makeup, stone wall background, ornamentation, thorns, vines, elegant"
+neg = "lacklustre, repetitive, cropped, lowres, deformed, old, childish, cartoonish"
+syn = synonymiser(pos, 4)
+prompt, distance = syn.synonymise()
+print(f'Pos: {prompt} k:{distance}')
+syn = synonymiser(neg, 4)
+prompt, distance = syn.synonymise()
+print(f'Neg: {prompt} k:{distance}')
+
+
+for i in range(1, 10):
+    syn = synonymiser(pos, i)
+    prompt, distance = syn.synonymise()
+    print(f'TopK: {i} Pos: {prompt} k:{distance}')
