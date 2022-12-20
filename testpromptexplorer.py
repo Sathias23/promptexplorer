@@ -1,5 +1,5 @@
 import promptexplorer
-from synonymiser import synonymiser
+from promptmutator import synonymiser
 
 x = promptexplorer.promptFragments()
 x.addFragment("A cow, A bird, A camel", 1, 1)
