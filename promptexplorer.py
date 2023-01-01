@@ -3,7 +3,7 @@ import random
 from enum import Enum
 
 class promptFragment:
-    def __init__(self, prompt:str, numSelections:int, weight:decimal, variance:decimal=0):
+    def __init__(self, prompt:str, numSelections:int, weight:decimal=1, variance:decimal=0):
         self.prompt = prompt
         self.weight = weight
         self.variance = variance
