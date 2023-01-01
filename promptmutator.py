@@ -71,8 +71,11 @@ class promptmutator:
             word = word[2:-2]
             # mutate the word
             new_word, distance = self.mutate_word(word)
+            #trim new_word
+            new_word = new_word.strip()
             # replace the word in the prompt with the mutated word
-            self.prompt = self.prompt.replace(f'[[{word}]]', f'[[{new_word}]]')
+            self.prompt = self.prompt.replace(f'[[{word}]]', f'{new_word}')
+        return self.prompt
 
         
 
